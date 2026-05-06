@@ -8,22 +8,22 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
-        SELECT user_id, username, email, points, streak_days, last_completed_at 
+        SELECT user_id, username, email, points, streak_days, last_completed_at, created_at, profile_pic 
         FROM User
     `;
     pool.query(SQLSTATEMENT, callback);
 };
 
 // ##############################################################
-// SELECT USER BY USERNAME (For Login)
+// SELECT USER BY USERNAME OR EMAIL (For Login)
 // ##############################################################
-module.exports.selectByUsername = (data, callback) => {
+module.exports.selectByUsernameOrEmail = (data, callback) => {
     const SQLSTATEMENT = `
         SELECT user_id, username, password, email, points, streak_days, last_completed_at 
         FROM User 
-        WHERE username = ?
+        WHERE username = ? OR email = ?
     `;
-    const VALUES = [data.username];
+    const VALUES = [data.identifier, data.identifier];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -32,7 +32,7 @@ module.exports.selectByUsername = (data, callback) => {
 // ##############################################################
 module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT user_id, username, email, points, streak_days, last_completed_at 
+        SELECT user_id, username, email, points, streak_days, last_completed_at, profile_pic, created_at 
         FROM User 
         WHERE user_id = ?
     `;
@@ -45,7 +45,7 @@ module.exports.selectById = (data, callback) => {
 // ##############################################################
 module.exports.checkDuplicate = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT user_id 
+        SELECT user_id, username, email 
         FROM User 
         WHERE username = ? OR email = ?
     `;
@@ -58,7 +58,7 @@ module.exports.checkDuplicate = (data, callback) => {
 // ##############################################################
 module.exports.checkDuplicateExcludingUser = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT user_id 
+        SELECT user_id, username, email 
         FROM User 
         WHERE (username = ? OR email = ?) AND user_id != ?
     `;
@@ -82,13 +82,41 @@ module.exports.insert = (data, callback) => {
 // UPDATE USER BY ID
 // ##############################################################
 module.exports.updateById = (data, callback) => {
-    // Note: Password update logic usually handled separately or conditionally
+    let SQLSTATEMENT = `UPDATE User SET username = ?, email = ?`;
+    let VALUES = [data.username, data.email];
+
+    if (data.password) {
+        SQLSTATEMENT += `, password = ?`;
+        VALUES.push(data.password);
+    }
+
+    if (data.profile_pic) {
+        SQLSTATEMENT += `, profile_pic = ?`;
+        VALUES.push(data.profile_pic);
+    }
+    
+    // Points usually managed via specific actions, but kept for compatibility
+    if (data.points !== undefined) {
+        SQLSTATEMENT += `, points = ?`;
+        VALUES.push(data.points);
+    }
+
+    SQLSTATEMENT += ` WHERE user_id = ?`;
+    VALUES.push(data.id);
+
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
+// ##############################################################
+// CHECK USER DEPENDENCIES (Team Manager or Challenge Creator)
+// ##############################################################
+module.exports.checkDependencies = (data, callback) => {
     const SQLSTATEMENT = `
-        UPDATE User 
-        SET username = ?, email = ?, points = ? 
-        WHERE user_id = ?
+        SELECT 
+            (SELECT COUNT(*) FROM Team WHERE user_id = ?) as team_count,
+            (SELECT COUNT(*) FROM WellnessChallenge WHERE creator_id = ?) as challenge_count
     `;
-    const VALUES = [data.username, data.email, data.points, data.id];
+    const VALUES = [data.id, data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

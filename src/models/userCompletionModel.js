@@ -8,11 +8,12 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectByUserId = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT uc.*, wc.description, wc.points 
+        SELECT uc.*, wc.title, wc.description, wc.points 
         FROM UserCompletion uc
         JOIN WellnessChallenge wc ON uc.challenge_id = wc.challenge_id
         WHERE uc.user_id = ?
         ORDER BY uc.completed_at DESC
+        LIMIT 100
     `;
     const VALUES = [data.user_id];
     pool.query(SQLSTATEMENT, VALUES, callback);

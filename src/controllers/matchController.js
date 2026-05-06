@@ -18,11 +18,16 @@ module.exports.prepareHomeData = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to prepare home data: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "Home team not found" });
         } else {
+            // SECURITY: Ensure authenticated user owns the team starting the match
+            if (Number(results[0].user_id) !== Number(res.locals.userId)) {
+                return res.status(403).json({ message: "Error: You do not own this team" });
+            }
             res.locals.homeOwnerId = results[0].user_id;
+            res.locals.homeName = results[0].name;
             res.locals.homeStrength = results[0].total_strength || 0;
             res.locals.homeTeamId = teamId;
             next();
@@ -43,11 +48,12 @@ module.exports.prepareAwayData = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to prepare away data: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "No opponents available." });
         } else {
             res.locals.awayTeamId = results[0].team_id;
+            res.locals.awayName = results[0].name;
             res.locals.awayOwnerId = results[0].user_id;
             res.locals.awayStrength = results[0].total_strength || 0;
             next();
@@ -109,16 +115,16 @@ module.exports.awardHomeRewards = (req, res, next) => {
     }
 
     // Loss
-    let pts = 5; 
+    let pts = 25; 
     let ratingPts = -1; // Deduct rating on loss
 
     if (result.winner_team_id === result.home_team_id) {
         // Win
-        pts = 20; 
+        pts = 100; 
         ratingPts = 2;
     } else if (result.winner_team_id === null) {
         // Draw
-        pts = 10; 
+        pts = 50; 
         ratingPts = 0; // Neutral for draw
     }
 
@@ -132,7 +138,7 @@ module.exports.awardHomeRewards = (req, res, next) => {
     const callback = (error) => {
         if (error) {
             console.error("Error to award home rewards: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.locals.homeAwarded = pts;
             next();
@@ -152,16 +158,16 @@ module.exports.awardAwayRewards = (req, res, next) => {
     }
 
     // Loss
-    let pts = 5; 
+    let pts = 25; 
     let ratingPts = -1; // Deduct rating on loss
 
     if (result.winner_team_id === result.away_team_id) {
         // Win
-        pts = 20; 
+        pts = 100; 
         ratingPts = 2;
     } else if (result.winner_team_id === null) {
         // Draw
-        pts = 10; 
+        pts = 50; 
         ratingPts = 0; // Neutral for draw
     }
 
@@ -175,7 +181,7 @@ module.exports.awardAwayRewards = (req, res, next) => {
     const callback = (error) => {
         if (error) {
             console.error("Error to award away rewards: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.locals.awayAwarded = pts;
             next();
@@ -191,28 +197,30 @@ module.exports.awardAwayRewards = (req, res, next) => {
 module.exports.recordMatch = (req, res, next) => {
     const data = res.locals.matchResult;
 
+    let badges = null;
+    if (res.locals.badgesAwarded && res.locals.badgesAwarded.length > 0) {
+        badges = res.locals.badgesAwarded;
+    }
+
     const callback = (error, results) => {
         if (error) {
             console.error("Error record match: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json({
                 message: "Match complete!",
-                match_details: {
-                    home_team_id: res.locals.matchResult.home_team_id,
-                    away_team_id: res.locals.matchResult.away_team_id,
-                    home_owner_id: res.locals.homeOwnerId,
-                    away_owner_id: res.locals.awayOwnerId
-                },
-                result: {
-                    score: `${res.locals.matchResult.home_score} - ${res.locals.matchResult.away_score}`,
+                match_result: {
+                    home_score: res.locals.matchResult.home_score,
+                    away_score: res.locals.matchResult.away_score,
                     winner_team_id: res.locals.matchResult.winner_team_id,
-                    win_probability: res.locals.matchResult.home_win_probability
+                    home_team_name: res.locals.homeName,
+                    away_team_name: res.locals.awayName
                 },
                 rewards: {
                     home_user_earned: res.locals.homeAwarded,
                     away_user_earned: res.locals.awayAwarded
-                }
+                },
+                badges: badges
             });
         }
     };
@@ -229,7 +237,7 @@ module.exports.getHistory = (req, res) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to get match history: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -245,7 +253,7 @@ module.exports.readAllMatches = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to read all matches: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -262,7 +270,7 @@ module.exports.getTeamStats = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to get team stats: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.length === 0 || results[0].matches_played === 0) {
                 res.status(200).json({
@@ -286,7 +294,7 @@ module.exports.readLeaderboard = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to read leaderboard: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }

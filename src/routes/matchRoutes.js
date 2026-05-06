@@ -6,6 +6,7 @@ const router = express.Router();
 const controller = require('../controllers/matchController');
 const badgeController = require('../controllers/badgeController');
 const achievementController = require('../controllers/userBadgeController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 // ##############################################################
 // DEFINE ROUTES
@@ -13,13 +14,14 @@ const achievementController = require('../controllers/userBadgeController');
 
 // A match between current team and a random opponent
 router.post("/match", 
+    jwtMiddleware.verifyToken,
     controller.prepareHomeData,         
     controller.prepareAwayData,         
     controller.match,                   
     controller.awardHomeRewards,
     controller.awardAwayRewards,
     badgeController.initBadgeMapping,    
-    achievementController.checkEliteStriker,
+    achievementController.checkWorldClassPlayer,
     controller.recordMatch        
 );
 

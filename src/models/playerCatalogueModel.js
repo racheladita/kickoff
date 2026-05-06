@@ -4,7 +4,7 @@
 const pool = require('../services/db');
 
 // ##############################################################
-// SELECT ALL CATALOGUE ITEMS (SHOP)
+// SELECT ALL CATALOGUE ITEMS (MARKET)
 // ##############################################################
 module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
@@ -46,10 +46,10 @@ module.exports.selectByName = (data, callback) => {
 // ##############################################################
 module.exports.insert = (data, callback) => {
     const SQLSTATEMENT = `
-        INSERT INTO PlayerCatalogue (name, description, position, rating, unlock_cost) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO PlayerCatalogue (name, description, position, rating, unlock_cost, image) 
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const VALUES = [data.name, data.description, data.position, data.rating, data.unlock_cost];
+    const VALUES = [data.name, data.description, data.position, data.rating, data.unlock_cost, data.image];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -59,10 +59,10 @@ module.exports.insert = (data, callback) => {
 module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `
         UPDATE PlayerCatalogue 
-        SET name = ?, description = ?, position = ?, rating = ?, unlock_cost = ? 
+        SET name = ?, description = ?, position = ?, rating = ?, unlock_cost = ?, image = ? 
         WHERE catalogue_id = ?
     `;
-    const VALUES = [data.name, data.description, data.position, data.rating, data.unlock_cost, data.id];
+    const VALUES = [data.name, data.description, data.position, data.rating, data.unlock_cost, data.image, data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

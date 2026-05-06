@@ -33,10 +33,10 @@ module.exports.selectById = (data, callback) => {
 // ##############################################################
 module.exports.insert = (data, callback) => {
     const SQLSTATEMENT = `
-        INSERT INTO Badge (name, description) 
-        VALUES (?, ?)
+        INSERT INTO Badge (name, description, image) 
+        VALUES (?, ?, ?)
     `;
-    const VALUES = [data.name, data.description];
+    const VALUES = [data.name, data.description, data.image];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -46,10 +46,10 @@ module.exports.insert = (data, callback) => {
 module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `
         UPDATE Badge 
-        SET name = ?, description = ? 
+        SET name = ?, description = ?, image = ? 
         WHERE badge_id = ?
     `;
-    const VALUES = [data.name, data.description, data.id];
+    const VALUES = [data.name, data.description, data.image, data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

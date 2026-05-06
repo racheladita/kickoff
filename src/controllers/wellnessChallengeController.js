@@ -10,7 +10,7 @@ module.exports.readAllChallenges = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to read all challenges: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -29,7 +29,7 @@ module.exports.readChallengeById = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to read challenge by id: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.length == 0) {
                 res.status(404).json({ message: "Challenge not found" });
@@ -52,7 +52,7 @@ module.exports.readChallengesByCreator = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to read challenges by creator: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -64,15 +64,16 @@ module.exports.readChallengesByCreator = (req, res, next) => {
 // CREATE NEW CHALLENGE (Section D Req 5)
 // ##############################################################
 module.exports.createChallenge = (req, res, next) => {
-    if (req.body.description == undefined || req.body.points == undefined || req.body.user_id == undefined) {
+    if (req.body.description == undefined || req.body.points == undefined) {
         res.status(400).json({
-            message: "Error: description, points, or user_id is undefined"
+            message: "Error: description or points is undefined"
         });
         return;
     }
 
     const data = {
-        creator_id: req.body.user_id,
+        creator_id: res.locals.userId,
+        title: req.body.title || "Untitled Challenge",
         description: req.body.description,
         points: req.body.points
     }
@@ -80,7 +81,7 @@ module.exports.createChallenge = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to create challenge: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(201).json({
                 challenge_id: results.insertId,
@@ -98,7 +99,7 @@ module.exports.createChallenge = (req, res, next) => {
 module.exports.prepareCompletion = (req, res, next) => {
     const data = {
         challenge_id: req.params.id,
-        user_id: req.body.user_id
+        user_id: res.locals.userId
     };
 
     if (!data.challenge_id || !data.user_id) {
@@ -108,7 +109,7 @@ module.exports.prepareCompletion = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to prepare completion:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "User or Challenge not found" });
         } else {
@@ -142,7 +143,7 @@ module.exports.sendCompletionResponse = (req, res, next) => {
     res.status(201).json({
         complete_id: res.locals.completion_id,
         challenge_id: req.params.id,
-        user_id: req.body.user_id,
+        user_id: res.locals.userId,
         details: req.body.details,
         message: "Challenge completed successfully!",
         points_gained: res.locals.challenge.points,
@@ -163,7 +164,7 @@ module.exports.checkChallenge = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to check challenge: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "Challenge not found" });
         } else {
@@ -179,11 +180,6 @@ module.exports.checkChallenge = (req, res, next) => {
 // MIDDLEWARE: CHECK CHALLENGE OWNERSHIP (Section D Req 8)
 // ##############################################################
 module.exports.checkChallengeOwnership = (req, res, next) => {
-    if (req.body.user_id == undefined) {
-        res.status(400).json({ message: "Error: user_id is required" });
-        return;
-    }
-
     const data = { 
         id: req.params.id 
     };
@@ -191,7 +187,7 @@ module.exports.checkChallengeOwnership = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error checking ownership:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
             return;
         }
         if (results.length == 0) {
@@ -200,7 +196,13 @@ module.exports.checkChallengeOwnership = (req, res, next) => {
         }
 
         const challenge = results[0];
-        if (challenge.creator_id != req.body.user_id) {
+        // Bypass for Superadmin (ID 1)
+        if (res.locals.userId == 1) {
+            res.locals.challengeOwnerId = challenge.creator_id;
+            return next();
+        }
+
+        if (challenge.creator_id != res.locals.userId) {
             res.status(403).json({ message: "Forbidden: Not the challenge creator" });
             return;
         }
@@ -223,6 +225,7 @@ module.exports.updateChallengeById = (req, res, next) => {
 
     const data = {
         id: req.params.id,
+        title: req.body.title || "Untitled Challenge",
         description: req.body.description,
         points: req.body.points
     };
@@ -230,7 +233,7 @@ module.exports.updateChallengeById = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error updateChallengeById: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json({
                 challenge_id: data.id,
@@ -245,17 +248,43 @@ module.exports.updateChallengeById = (req, res, next) => {
 };
 
 // ##############################################################
+// MIDDLEWARE: CHECK COMPLETIONS BEFORE DELETE
+// ##############################################################
+module.exports.checkCompletions = (req, res, next) => {
+    const data = {
+        challenge_id: req.params.id
+    };
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error checking challenge dependencies: ", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results[0].count > 0) {
+            return res.status(409).json({ 
+                message: `Cannot delete challenge. It has been completed by ${results[0].count} users.` 
+            });
+        }
+        
+        next();
+    };
+
+    model.countCompletions(data, callback);
+};
+
+// ##############################################################
 // DELETE CHALLENGE BY ID (Section D Req 7)
 // ##############################################################
 module.exports.deleteChallengeById = (req, res, next) => {
     const data = {
         id: req.params.id
-    }
+    };
 
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error deleteChallengeById: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.affectedRows == 0) {
                 res.status(404).json({
@@ -265,7 +294,7 @@ module.exports.deleteChallengeById = (req, res, next) => {
                 res.status(204).send();
             }
         }
-    }
+    };
 
     model.deleteById(data, callback);
-}
+};

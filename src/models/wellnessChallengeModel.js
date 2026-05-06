@@ -8,9 +8,10 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM WellnessChallenge 
-        ORDER BY created_at DESC
+        SELECT wc.*, u.username as creator_name 
+        FROM WellnessChallenge wc
+        LEFT JOIN User u ON wc.creator_id = u.user_id
+        ORDER BY wc.created_at DESC
     `;
     pool.query(SQLSTATEMENT, callback);
 };
@@ -20,9 +21,10 @@ module.exports.selectAll = (callback) => {
 // ##############################################################
 module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM WellnessChallenge 
-        WHERE challenge_id = ?
+        SELECT wc.*, u.username as creator_name 
+        FROM WellnessChallenge wc
+        LEFT JOIN User u ON wc.creator_id = u.user_id
+        WHERE wc.challenge_id = ?
     `;
     const VALUES = [data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
@@ -33,10 +35,10 @@ module.exports.selectById = (data, callback) => {
 // ##############################################################
 module.exports.insert = (data, callback) => {
     const SQLSTATEMENT = `
-        INSERT INTO WellnessChallenge (creator_id, description, points) 
-        VALUES (?, ?, ?)
+        INSERT INTO WellnessChallenge (creator_id, title, description, points) 
+        VALUES (?, ?, ?, ?)
     `;
-    const VALUES = [data.creator_id, data.description, data.points];
+    const VALUES = [data.creator_id, data.title, data.description, data.points];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -64,10 +66,10 @@ module.exports.getCompletionContext = (data, callback) => {
 module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `  
         UPDATE WellnessChallenge 
-        SET description = ?, points = ? 
+        SET title = ?, description = ?, points = ? 
         WHERE challenge_id = ?
     `;
-    const VALUES = [data.description, data.points, data.id];
+    const VALUES = [data.title, data.description, data.points, data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -88,11 +90,25 @@ module.exports.deleteById = (data, callback) => {
 // ##############################################################
 module.exports.selectByCreatorId = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM WellnessChallenge 
-        WHERE creator_id = ?
-        ORDER BY created_at DESC
+        SELECT wc.*, u.username as creator_name 
+        FROM WellnessChallenge wc
+        LEFT JOIN User u ON wc.creator_id = u.user_id
+        WHERE wc.creator_id = ?
+        ORDER BY wc.created_at DESC
     `;
     const VALUES = [data.user_id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
+// ##############################################################
+// COUNT COMPLETIONS BY CHALLENGE ID
+// ##############################################################
+module.exports.countCompletions = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT COUNT(*) as count 
+        FROM UserCompletion 
+        WHERE challenge_id = ?
+    `;
+    const VALUES = [data.challenge_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };

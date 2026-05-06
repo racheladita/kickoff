@@ -9,7 +9,8 @@ const setting = {
     password : process.env.DB_PASSWORD,
     database : process.env.DB_DATABASE,
     multipleStatements: true, //allow multiple sql statements
-    dateStrings: true //return date as string instead of Date object
+    dateStrings: true, //return date as string instead of Date object
+    port: process.env.DB_PORT 
 }
 
 const pool = mysql.createPool(setting);

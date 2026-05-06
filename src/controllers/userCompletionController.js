@@ -14,7 +14,7 @@ module.exports.readCompletionsByUser = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to read completions by user: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -30,15 +30,18 @@ module.exports.readChallengeCompletions = (req, res, next) => {
     const data = {
         challenge_id: req.params.id
     }
+    
+    const challenge = res.locals.challenge;
 
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to read challenge completions: ", error);
-            res.status(500).json(error);
-        } else if (results.length === 0) {
-            res.status(404).json({ message: "No completions found for this challenge" });
+            res.status(500).json({ message: "Internal server error" });
         } else {
-            res.status(200).json(results);
+            res.status(200).json({
+                challenge: challenge,
+                completions: results
+            });
         }
     }
 
@@ -50,9 +53,11 @@ module.exports.readChallengeCompletions = (req, res, next) => {
 // ##############################################################
 module.exports.executeCompletion = (req, res, next) => {
     const context = res.locals.completionContext;
-    if (!context) return res.status(500).json({ message: "Internal error: Completion context missing" });
+    if (!context) {
+        return res.status(500).json({ message: "Internal error: Completion context missing" });
+    }
 
-    const user_id = req.body.user_id;
+    const user_id = res.locals.userId;
     const challenge_id = req.params.id;
     const details = req.body.details;
 
@@ -94,7 +99,7 @@ module.exports.executeCompletion = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to execute completion:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             // results[3] = SELECT points (User), results[4] = SELECT count (Today)
             res.locals.completion_id = results[0].insertId;
@@ -124,7 +129,7 @@ module.exports.readCompletionById = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to get completion by id: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.length == 0) {
                 res.status(404).json({ message: "Completion not found" });

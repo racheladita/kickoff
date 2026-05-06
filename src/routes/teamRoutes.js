@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/teamController');
 const playerController = require('../controllers/playerController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 // ##############################################################
 // DEFINE ROUTES
@@ -14,9 +15,9 @@ const playerController = require('../controllers/playerController');
 router.get("/user/:user_id", controller.getTeamByUser);
 router.get("/", controller.readAllTeams);
 router.get("/:id", controller.readTeamById);
-router.post("/", controller.checkTeamOwnership, controller.createTeam);
-router.put("/:id", controller.checkTeamOwner, controller.updateTeam);
-router.delete("/:id", controller.checkTeamOwner, controller.deleteTeam);
+router.post("/", jwtMiddleware.verifyToken, controller.checkTeamOwnership, controller.checkDuplicateTeamName, controller.createTeam);
+router.put("/:id", jwtMiddleware.verifyToken, controller.checkTeamOwner, controller.checkDuplicateTeamName, controller.updateTeam);
+router.delete("/:id", jwtMiddleware.verifyToken, controller.checkTeamOwner, controller.checkMatchHistory, controller.deleteTeam);
 
 // Team Roster
 router.get("/:team_id/players", playerController.getTeamRoster);

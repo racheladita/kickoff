@@ -8,9 +8,11 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectByUserId = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM Team 
-        WHERE user_id = ?
+        SELECT t.team_id, t.name as team_name, t.user_id, t.created_at, u.username,
+        (SELECT COUNT(*) FROM Player p WHERE p.team_id = t.team_id) as player_count
+        FROM Team t
+        LEFT JOIN User u ON t.user_id = u.user_id
+        WHERE t.user_id = ?
     `;
     const VALUES = [data.user_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
@@ -21,9 +23,11 @@ module.exports.selectByUserId = (data, callback) => {
 // ##############################################################
 module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM Team 
-        ORDER BY created_at DESC
+        SELECT t.team_id, t.name as team_name, t.user_id, t.created_at, u.username,
+        (SELECT COUNT(*) FROM Player p WHERE p.team_id = t.team_id) as player_count
+        FROM Team t
+        LEFT JOIN User u ON t.user_id = u.user_id
+        ORDER BY t.created_at DESC
     `;
     pool.query(SQLSTATEMENT, callback);
 };
@@ -33,9 +37,11 @@ module.exports.selectAll = (callback) => {
 // ##############################################################
 module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT * 
-        FROM Team 
-        WHERE team_id = ?
+        SELECT t.team_id, t.name as team_name, t.user_id, t.created_at, u.username,
+        (SELECT COUNT(*) FROM Player p WHERE p.team_id = t.team_id) as player_count
+        FROM Team t
+        LEFT JOIN User u ON t.user_id = u.user_id
+        WHERE t.team_id = ?
     `;
     const VALUES = [data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
@@ -90,6 +96,19 @@ module.exports.findRandomOpponent = (data, callback) => {
         LIMIT 1;
     `;
     const VALUES = [data.user_id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
+// ##############################################################
+// SELECT TEAM BY NAME
+// ##############################################################
+module.exports.selectByName = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT * 
+        FROM Team 
+        WHERE name = ?
+    `;
+    const VALUES = [data.name];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

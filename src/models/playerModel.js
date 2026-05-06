@@ -8,8 +8,8 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectByTeamId = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT p.player_id, p.team_id, p.rating, p.unlocked_at,
-               pc.name, pc.position, pc.unlock_cost
+        SELECT p.player_id, p.team_id, p.rating, p.unlocked_at, p.catalogue_id,
+               pc.name, pc.position, pc.unlock_cost, pc.image
         FROM Player p
         JOIN PlayerCatalogue pc ON p.catalogue_id = pc.catalogue_id
         WHERE p.team_id = ?
@@ -24,7 +24,7 @@ module.exports.selectByTeamId = (data, callback) => {
 // ##############################################################
 module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT p.*, pc.name, pc.position, pc.unlock_cost, t.user_id 
+        SELECT p.*, pc.name, pc.position, pc.unlock_cost, pc.image, t.user_id, pc.description 
         FROM Player p
         JOIN PlayerCatalogue pc ON p.catalogue_id = pc.catalogue_id
         JOIN Team t ON p.team_id = t.team_id
@@ -87,7 +87,7 @@ module.exports.performUnlock = (data, callback) => {
 };
 
 // ##############################################################
-// CHECK MAX RATING FOR TEAM (Elite Striker Badge)
+// CHECK MAX RATING FOR TEAM (World Class Player Badge)
 // ##############################################################
 module.exports.selectMaxRatingByTeamId = (data, callback) => {
     const SQLSTATEMENT = `
@@ -112,5 +112,18 @@ module.exports.performRelease = (data, callback) => {
         WHERE user_id = ?;
     `;
     const VALUES = [data.player_id, data.refund, data.user_id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
+// ##############################################################
+// COUNT PLAYERS BY CATALOGUE ID (For Delete Safety)
+// ##############################################################
+module.exports.countPlayersByCatalogueId = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT COUNT(*) as count 
+        FROM Player 
+        WHERE catalogue_id = ?
+    `;
+    const VALUES = [data.catalogue_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };

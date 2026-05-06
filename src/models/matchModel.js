@@ -10,6 +10,7 @@ module.exports.getTeamDetailsForMatch = (data, callback) => {
     const SQLSTATEMENT = `
         SELECT 
             t.user_id, 
+            t.name,
             (
                 SELECT SUM(rating) 
                 FROM (
@@ -34,6 +35,7 @@ module.exports.findOpponentDetailsForMatch = (data, callback) => {
         SELECT 
             t.team_id, 
             t.user_id, 
+            t.name,
             (
                 SELECT SUM(rating) 
                 FROM (
@@ -92,7 +94,8 @@ module.exports.selectByTeamId = (data, callback) => {
         JOIN Team ht ON mr.home_team_id = ht.team_id
         JOIN Team at ON mr.away_team_id = at.team_id
         WHERE mr.home_team_id = ? OR mr.away_team_id = ?
-        ORDER BY mr.played_at DESC;
+        ORDER BY mr.played_at DESC
+        LIMIT 10;
     `;
     const VALUES = [data.team_id, data.team_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
@@ -107,7 +110,8 @@ module.exports.selectAll = (callback) => {
         FROM MatchRecord mr
         JOIN Team ht ON mr.home_team_id = ht.team_id
         JOIN Team at ON mr.away_team_id = at.team_id
-        ORDER BY mr.played_at DESC;
+        ORDER BY mr.played_at DESC
+        LIMIT 10;
     `;
     pool.query(SQLSTATEMENT, callback);
 };
@@ -123,7 +127,8 @@ module.exports.selectStatsByTeamId = (data, callback) => {
             SUM(CASE WHEN winner_team_id IS NULL THEN 1 ELSE 0 END) as draws,
             SUM(CASE WHEN winner_team_id != ? AND winner_team_id IS NOT NULL THEN 1 ELSE 0 END) as losses
         FROM MatchRecord
-        WHERE home_team_id = ? OR away_team_id = ?;
+        WHERE home_team_id = ? OR away_team_id = ?
+        LIMIT 10;
     `;
     const VALUES = [data.team_id, data.team_id, data.team_id, data.team_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
@@ -145,4 +150,17 @@ module.exports.selectLeaderboard = (callback) => {
         LIMIT 10;
     `;
     pool.query(SQLSTATEMENT, callback);
+};
+
+// ##############################################################
+// COUNT MATCHES BY TEAM ID (For Delete Safety)
+// ##############################################################
+module.exports.countMatchesByTeamId = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT COUNT(*) as count 
+        FROM MatchRecord 
+        WHERE home_team_id = ? OR away_team_id = ?
+    `;
+    const VALUES = [data.team_id, data.team_id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
 };

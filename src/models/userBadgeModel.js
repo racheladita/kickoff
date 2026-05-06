@@ -8,7 +8,7 @@ const pool = require('../services/db');
 // ##############################################################
 module.exports.selectByUserId = (data, callback) => {
     const SQLSTATEMENT = `
-        SELECT ub.user_badge_id, ub.awarded_at, b.name, b.description
+        SELECT ub.user_badge_id, ub.awarded_at, b.name, b.description, b.image
         FROM UserBadge ub
         JOIN Badge b ON ub.badge_id = b.badge_id
         WHERE ub.user_id = ?
@@ -43,9 +43,9 @@ module.exports.insertIgnore = (data, callback) => {
 };
 
 // ##############################################################
-// AWARD ELITE STRIKER IF QUALIFIED
+// AWARD WORLD CLASS PLAYER IF QUALIFIED
 // ##############################################################
-module.exports.insertIfElite = (data, callback) => {
+module.exports.insertIfWorldClassPlayer = (data, callback) => {
     const SQLSTATEMENT = `
         INSERT IGNORE INTO UserBadge (user_id, badge_id)
         SELECT ?, ?
@@ -54,8 +54,21 @@ module.exports.insertIfElite = (data, callback) => {
             SELECT MAX(rating) 
             FROM Player 
             WHERE team_id = ?
-        ) >= 75;
+        ) >= 100;
     `;
     const VALUES = [data.user_id, data.badge_id, data.team_id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
+// ##############################################################
+// COUNT AWARDS BY BADGE ID (For Delete Safety)
+// ##############################################################
+module.exports.countAwardsByBadgeId = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT COUNT(*) as count 
+        FROM UserBadge 
+        WHERE badge_id = ?
+    `;
+    const VALUES = [data.badge_id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };

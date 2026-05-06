@@ -2,15 +2,16 @@
 // REQUIRE MODULES
 // ##############################################################
 const model = require('../models/playerCatalogueModel');
+const playerModel = require('../models/playerModel');
 
 // ##############################################################
-// GET CATALOGUE (SHOP)
+// GET CATALOGUE (MARKET)
 // ##############################################################
 module.exports.getCatalogue = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to get catalogue: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -29,7 +30,7 @@ module.exports.getCatalogueById = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to get catalogue by id: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.length == 0) {
                 res.status(404).json({ message: "Catalogue item not found" });
@@ -52,7 +53,7 @@ module.exports.checkCatalogue = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to check catalogue:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "Catalogue player not found" });
         } else {
@@ -79,7 +80,7 @@ module.exports.checkDuplicateName = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to check duplicate name:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length > 0 && results[0].catalogue_id != req.params.id) {
             res.status(409).json({ message: "Player name already exists in catalogue" });
         } else {
@@ -94,18 +95,24 @@ module.exports.checkDuplicateName = (req, res, next) => {
 // CREATE CATALOGUE ITEM
 // ##############################################################
 module.exports.createCatalogueItem = (req, res, next) => {
+    let image = req.body.image;
+    if (req.file) {
+        image = '/uploads/' + req.file.filename;
+    }
+    
     const data = {
         name: req.body.name,
         description: req.body.description,
         position: req.body.position,
         rating: req.body.rating,
-        unlock_cost: req.body.unlock_cost
+        unlock_cost: req.body.unlock_cost,
+        image: image
     };
 
     const callback = (error, results) => {
         if (error) {
             console.error("Error to create catalogue item:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(201).json({
                 catalogue_id: results.insertId,
@@ -121,19 +128,25 @@ module.exports.createCatalogueItem = (req, res, next) => {
 // UPDATE CATALOGUE ITEM
 // ##############################################################
 module.exports.updateCatalogueItem = (req, res, next) => {
+    let image = req.body.image || res.locals.item.image;
+    if (req.file) {
+        image = '/uploads/' + req.file.filename;
+    }
+
     const data = {
         id: req.params.id,
         name: req.body.name,
         description: req.body.description,
         position: req.body.position,
         rating: req.body.rating,
-        unlock_cost: req.body.unlock_cost
+        unlock_cost: req.body.unlock_cost,
+        image: image
     };
 
     const callback = (error, results) => {
         if (error) {
             console.error("Error to update catalogue item:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(data);
         }
@@ -143,15 +156,43 @@ module.exports.updateCatalogueItem = (req, res, next) => {
 };
 
 // ##############################################################
+// MIDDLEWARE: CHECK PLAYER USAGE BEFORE DELETE
+// ##############################################################
+module.exports.checkPlayerUsage = (req, res, next) => {
+    const data = {
+        catalogue_id: req.params.id
+    };
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error checking catalogue dependencies: ", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        if (results[0].count > 0) {
+            return res.status(409).json({ 
+                message: `Cannot delete this player. There are ${results[0].count} teams using this player.` 
+            });
+        }
+        
+        next();
+    };
+
+    playerModel.countPlayersByCatalogueId(data, callback);
+};
+
+// ##############################################################
 // DELETE CATALOGUE ITEM
 // ##############################################################
 module.exports.deleteCatalogueItem = (req, res, next) => {
-    const data = { id: req.params.id };
+    const data = { 
+        id: req.params.id
+    };
 
     const callback = (error, results) => {
         if (error) {
             console.error("Error to delete catalogue item:", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(204).send();
         }

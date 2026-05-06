@@ -21,7 +21,7 @@ module.exports.getTeamRoster = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to get team roster: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json(results);
         }
@@ -40,7 +40,7 @@ module.exports.readPlayerById = (req, res, next) => {
     const callback = (error, results, fields) => {
         if (error) {
             console.error("Error to get player by id: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             if (results.length == 0) {
                 res.status(404).json({ message: "Player not found" });
@@ -57,7 +57,7 @@ module.exports.readPlayerById = (req, res, next) => {
 // ##############################################################
 module.exports.prepareUnlock = (req, res, next) => {
     const data = {
-        user_id: req.body.user_id || res.locals.user_id,
+        user_id: res.locals.userId,
         catalogue_id: req.params.id || req.body.catalogue_id
     };
 
@@ -68,7 +68,7 @@ module.exports.prepareUnlock = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to prepare unlock: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "Player catalogue item or user team not found" });
         } else {
@@ -99,7 +99,7 @@ module.exports.executeUnlock = (req, res, next) => {
 
     // 2. Data for Transaction
     const data = {
-        user_id: req.body.user_id || res.locals.user_id,
+        user_id: res.locals.userId,
         team_id: context.team_id,
         catalogue_id: req.params.id || req.body.catalogue_id,
         cost: context.unlock_cost,
@@ -109,7 +109,7 @@ module.exports.executeUnlock = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to execute unlock: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             // results[1] = INSERT results
             res.locals.player = {
@@ -162,15 +162,15 @@ module.exports.prepareRelease = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to prepare release: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else if (results.length === 0) {
             res.status(404).json({ message: "Player not found" });
         } else {
             const player = results[0];
-            const requestUserId = req.body.user_id || res.locals.user_id;
+            const requestUserId = res.locals.userId;
 
             // OWNERSHIP CHECK
-            if (requestUserId && player.user_id != requestUserId) {
+            if (player.user_id != requestUserId) {
                 return res.status(403).json({ message: "Error: You do not own this player" });
             }
 
@@ -202,7 +202,7 @@ module.exports.releasePlayer = (req, res, next) => {
     const callback = (error, results) => {
         if (error) {
             console.error("Error to release player: ", error);
-            res.status(500).json(error);
+            res.status(500).json({ message: "Internal server error" });
         } else {
             res.status(200).json({ 
                 message: "Player released successfully", 
