@@ -1,0 +1,28 @@
+{
+  "name": "kickoff",
+  "version": "1.0.0",
+  "description": "You are required to build your folder structures for your project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init_tables": "node src/configs/createSchema.js && node src/configs/initTables.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/racheladita/kickoff.git"
+  },
+  "author": "Adita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/racheladita/kickoff/issues"
+  },
+  "homepage": "https://github.com/racheladita/kickoff#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.0",
+    "nodemon": "^3.1.11"
+  }
+}
