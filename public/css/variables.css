@@ -1,0 +1,24 @@
+:root {
+    /* Primary Brand Colors - Purple/Navy Gradient Theme */
+    --primary: #7c3aed;
+    --primary-light: #eae3fa;
+    --primary-dark: #6d28d9;
+    --navy-dark: #1e1b4b;
+    --navy-custom: #0F172A;
+    --red: #ef4444;
+    --pink: #e966a7;
+    --magenta: #8a2e5c;
+    --magenta-light: #ca4567;
+    --green: #10b981;
+    --white: #ffffff;
+    --gray: #9398a1;
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-bg-dark: rgba(15, 23, 42, 0.8);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary), var(--pink));
+    --gradient-secondary: linear-gradient(135deg, var(--primary), var(--magenta-light));
+    --black: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+}

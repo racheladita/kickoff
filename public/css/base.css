@@ -1,0 +1,99 @@
+/* ===== BASE STYLES ===== */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* ===== CUSTOM COLOR UTILITIES (BOOTSTRAP OVERRIDE/EXTEND) ===== */
+.text-primary { color: var(--primary) !important; }
+.text-muted { color: var(--gray) !important; }
+.text-success { color: var(--green) !important; }
+.text-pink { color: var(--pink) !important; }
+.text-navy { color: var(--navy-custom) !important; }
+.bg-primary { background-color: var(--primary) !important; }
+.bg-dark { background: var(--black) !important; }
+.bg-navy { background: var(--navy-custom) !important; }
+.bg-pink { background: var(--magenta-light) !important; }
+.bg-purple-light { background: rgba(139, 92, 246, 0.2) !important; }
+
+/* ===== PAGINATION ===== */
+.pagination .page-item .page-link.bg-page {
+    background: var(--magenta-light) !important;
+    border-color: var(--magenta-light) !important;
+}
+
+/* ===== FORM VALIDATION COLORS ===== */
+.error-message { 
+    color: var(--red) !important; 
+    font-size: 0.8rem; 
+    margin-top: 0.25rem; 
+    font-weight: 500; 
+}
+
+/* ===== ADMIN/MARKET DARK THEME ===== */
+body.background-page {
+    background-image: url('../images/background-page.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: var(--white);
+}
+
+body.background-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.85), rgba(17, 24, 39, 0.9));
+    z-index: -1;
+}
+
+body.background-page .glass {
+    background: var(--glass-bg-dark) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* ===== TITLE ===== */
+.subtitle-line {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    flex-grow: 1;
+    max-width: 100px;
+}
+
+.subtitle-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.main-title {
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: -0.02em;
+}
+
+.underline {
+    height: 2px;
+    background: var(--white);
+    width: 100%;
+    opacity: 0.8;
+}
+
+.title-icon {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--white);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+}
+
+/* ===== UTILITY EXTENSIONS ===== */
+.grid-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}

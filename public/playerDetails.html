@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Details - KickOff</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 mt-5 py-5">
+        <!-- New Centered Back Button Pattern -->
+        <div class="d-flex justify-content-start mt-4 mb-4">
+            <a href="javascript:history.back()" class="btn-white" id="back-link">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="col-12 d-flex flex-column justify-content-center align-items-center w-100">
+            <div class="loader-ball">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <p class="text-white opacity-75 text-center">Loading player scout report...</p>
+        </div>
+
+        <!-- Player Details Card -->
+        <div id="player-details" class="d-none">
+            <div class="card glass p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <div class="d-flex align-items-center text-white gap-4">
+                        <img id="player-img" src="images/cristiano.png" alt="DefaultPlayer Image" class="avatar-huge border border-2 border-secondary">
+                        <div>
+                            <h1 id="player-name" class="mb-1 fw-bold display-6">Player Name</h1>
+                            <p class="lead text-primary fw-bold mb-0" id="player-position">Position</p>
+                        </div>
+                    </div>
+                    <div id="action-buttons-container" class="d-flex gap-2">
+                        <!-- Action buttons will be injected here -->
+                    </div>
+                </div>
+
+                <div class="row mt-4 g-4">
+                    <div class="text-white col-md-6">
+                        <h2 class="text-white text-opacity-75 text-uppercase fw-bold fs-6 mb-3 ls-1">Statistics</h2>
+                        <div class="stats-highlight fs-3 mb-4 fw-bold">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            <span id="player-rating">0</span> Rating
+                        </div>
+                        
+                        <h2 class="text-white text-opacity-75 text-uppercase fw-bold fs-6 mb-3 ls-1">Contract Status</h2>
+                        <div class="fs-5 text-white" id="contract-status-box">
+                            <i class="fas fa-file-contract text-primary me-2"></i> <span id="player-status-text">Available</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="text-white text-opacity-75 text-uppercase fw-bold fs-6 mb-3 ls-1">Description</h2>
+                        <div class="fs-5 mb-4 d-flex align-items-start gap-2">
+                            <i class="fas fa-info-circle text-white text-opacity-50 mt-1 me-2"></i> 
+                            <p id="player-description" class="text-white mb-0">Player Description</p>
+                        </div>
+
+                        <h2 class="text-white text-opacity-75 text-uppercase fw-bold fs-6 mb-3 ls-1">Market Value</h2>
+                        <div class="stats-highlight fs-3 mb-4 text-success fw-bold">
+                            <i class="fas fa-coins text-warning me-2"></i>
+                            <span id="player-cost">0</span> Points
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/core/playerHelpers.js"></script>
+    <script src="js/features/players/playerDetails.js"></script>
+</body>
+</html>

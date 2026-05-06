@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Player | KickOff Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 mt-5 py-5">
+        <div class="d-flex justify-content-start mt-4 mb-4">
+            <a href="adminPlayers.html" class="btn-white" id="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Catalogue
+            </a>
+        </div>
+
+        <div class="mb-3">
+            <div class="d-flex align-items-center justify-content-center gap-4">
+                <i class="fas fa-running title-icon"></i>
+                <div>
+                    <div class="d-flex align-items-center justify-content-center gap-4">
+                        <div class="subtitle-line"></div>
+                        <span class="subtitle-text">ADD NEW</span>
+                        <div class="subtitle-line"></div>
+                    </div>
+                    <h1 class="main-title">PLAYER</h1>
+                    <div class="underline"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="table-glass p-5 rounded-4">
+                    <form id="player-form" novalidate>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-white small opacity-75 fw-bold">Player Name</label>
+                                <input type="text" id="player-name" class="form-control " required placeholder="e.g. Cristiano Ronaldo">
+                                <p id="error-name" class="error-message d-none mt-1"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white small opacity-75 fw-bold">Position</label>
+                                <select id="player-position" class="form-select">
+                                    <option value="Forward">Forward</option>
+                                    <option value="Midfielder">Midfielder</option>
+                                    <option value="Defender">Defender</option>
+                                    <option value="Goalkeeper">Goalkeeper</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <label class="form-label text-white">Description</label>
+                            <textarea id="player-description" class="form-control" required placeholder="e.g. Great player"></textarea>
+                            <p id="error-description" class="error-message d-none"></p>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-white small opacity-75 fw-bold">Rating</label>
+                                <input type="number" id="player-rating" class="form-control" required min="1" max="99" value="0">
+                                <p id="error-rating" class="error-message d-none mt-1"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white small opacity-75 fw-bold">Cost</label>
+                                <input type="number" id="player-cost" class="form-control" required min="0" value="0">
+                                <p id="error-cost" class="error-message d-none mt-1"></p>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <label class="form-label text-white small opacity-75 fw-bold">Player Image</label>
+                            <input type="file" id="player-image" class="form-control" accept="image/*">
+                        </div>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="adminPlayers.html" class="btn btn-pink px-4" id="cancel-link">Cancel</a>
+                            <button type="submit" class="btn btn-white px-5">Add Player</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <div class="text-white">System Message</div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0"></p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/adminHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/admin/createPlayer.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - KickOff</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 mt-3 py-5">
+        <div class="my-5">
+            <div class="d-flex align-items-center justify-content-center gap-4">
+                <i class="fas fa-user-circle title-icon"></i>
+                <div>
+                    <div class="d-flex align-items-center justify-content-center gap-4">
+                        <div class="subtitle-line"></div>
+                        <span class="subtitle-text">PERSONAL</span>
+                        <div class="subtitle-line"></div>
+                    </div>
+                    <h1 class="main-title">MY PROFILE</h1>
+                    <div class="underline"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: User Info Card -->
+            <div class="col-lg-4">
+                <div class="card glass text-center text-white p-4">
+                    <div class="icon-circle bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
+                        <i class="fas fa-user fa-4x"></i>
+                    </div>
+                    <h2 id="username-display" class="mb-1 h3 fw-bold">Loading...</h2>
+                    <p id="email-display" class="text-white text-opacity-75 mb-4">...</p>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <div class="card glass p-3 text-center h-100 border-0 bg-white bg-opacity-10">
+                                <small class="text-white text-opacity-75 d-block mb-1">Total Points</small>
+                                <h3 id="points-display" class="text-primary mb-0 fw-bold">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card glass p-3 text-center h-100 border-0 bg-white bg-opacity-10">
+                                <small class="text-white text-opacity-75 d-block mb-1">Daily Streak</small>
+                                <h3 id="streak-display" class="text-warning mb-0 fw-bold">0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <button id="show-edit-btn" class="btn btn-white  px-4 py-2" onclick="toggleEditForm()">
+                            <i class="fas fa-user-edit me-2"></i> Edit Profile
+                        </button>
+                    </div>
+
+                    <div id="edit-profile-section" class="text-start mt-4 d-none">
+                        <hr class="my-4 border-light opacity-10">
+                        <h3 class="h5 mb-3 text-white"><i class="fas fa-edit text-primary me-2"></i> Edit Account</h3>
+                        <form id="edit-profile-form">
+                            <div class="mb-3">
+                                <label class="form-label small text-white text-opacity-75">Username</label>
+                                <input type="text" id="edit-username" class="form-control" placeholder="Enter new username">
+                                <p id="error-username" class="error-message d-none mt-1"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-white text-opacity-75">Email Address</label>
+                                <input type="email" id="edit-email" class="form-control" placeholder="Enter your email">
+                                <p id="error-email" class="error-message d-none mt-1"></p>
+                            </div>
+                            <!-- <div class="mb-3">
+                                <label class="form-label small text-white text-opacity-75">Profile Picture</label>
+                                <input type="file" id="edit-profile-pic" class="form-control" accept="image/*">
+                                <p id="error-profile-pic" class="error-message d-none mt-1"></p>
+                            </div> -->
+                            <div class="mb-3">
+                                <label class="form-label small text-white text-opacity-75">New Password</label>
+                                <input type="password" id="edit-password" class="form-control" placeholder="Leave blank to keep current">
+                                <p id="error-password" class="error-message d-none mt-1"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-white text-opacity-75">Confirm New Password</label>
+                                <input type="password" id="edit-confirm-password" class="form-control" placeholder="Confirm your new password">
+                                <p id="error-confirm-password" class="error-message d-none mt-1"></p>
+                            </div>
+                            <button type="submit" class="btn btn-white mt-2">
+                                <i class="fas fa-save me-2"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Details -->
+            <div class="col-lg-8">
+                <!-- Achievements Section -->
+                <div class="card glass p-4 mb-4 text-white">
+                    <h3 class="mb-3 h4 fw-bold"><i class="fas fa-medal text-primary me-2"></i> My Achievements</h3>
+                    <div id="badges-container" class="d-flex flex-wrap gap-2">
+                        <p class="text-white text-opacity-75 mb-0">Loading achievements...</p>
+                    </div>
+                </div>
+
+                <!-- Recent Completions -->
+                <div class="card glass p-4 mb-4 text-white">
+                    <h3 class="mb-3 h4 fw-bold"><i class="fas fa-check-double text-primary me-2"></i> Recent Completions</h3>
+                    <div id="completions-container">
+                        <p class="text-white text-opacity-75">No recent activity.</p>
+                    </div>
+                </div>
+
+                <!-- Team Summary -->
+                <div id="team-section">
+                    <div id="team-loading" class="text-center p-2">
+                        <p class="text-white text-opacity-75"><i class="fas fa-spinner fa-spin me-2"></i> Loading team...</p>
+                    </div>
+
+                    <div id="team-empty-state" class="card glass text-center p-5 d-none text-white">
+                        <i class="fas fa-users-slash text-primary fa-4x mb-3"></i>
+                        <h3 class="fw-bold">No Team Found</h3>
+                        <p class="text-white text-opacity-75 mb-4">You haven't established a football team yet.</p>
+                        <button id="show-create-team-btn" class="btn btn-white" onclick="showTeamForm()">
+                            <i class="fas fa-plus me-2"></i> Establish Your Team
+                        </button>
+                    </div>
+
+                    <div id="team-create-form" class="card glass p-4 d-none text-white">
+                        <h3 class="mb-4 fw-bold"><i class="fas fa-futbol text-primary me-2"></i> Establish Your Team</h3>
+                        <form id="merge-team-form">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Team Name</label>
+                                <input type="text" id="merge-team-name" class="form-control " placeholder="e.g. Dream Team FC">
+                                <p id="error-name" class="error-message d-none"></p>
+                            </div>
+                            <button type="submit" class="btn btn-outline-light w-100">Create Team</button>
+                        </form>
+                    </div>
+
+                    <div id="team-display-state" class="card glass p-4 d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <small class="text-white text-opacity-50 d-block text-uppercase fw-bold ls-1">My Football Team</small>
+                                <h2 id="display-team-name" class="mb-0 fw-bold text-white">...</h2>
+                            </div>
+                            <a href="team.html" class="btn btn-white px-3 py-2">
+                                Manage <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-4">
+                                <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                                    <i class="fas fa-users text-primary fa-2x mb-3"></i>
+                                    <small class="text-white text-opacity-75 d-block mb-1">Squad</small>
+                                    <h2 id="summary-player-count" class="h4 text-white mb-0 fw-bold">0</h2>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                                    <i class="fas fa-bolt text-primary fa-2x mb-3"></i>
+                                    <small class="text-white text-opacity-75 d-block mb-1">Avg Rating</small>
+                                    <h2 id="summary-avg-rating" class="h4 text-white mb-0 fw-bold">0</h2>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                                    <i class="fas fa-history text-primary fa-2x mb-3"></i>
+                                    <small class="text-white text-opacity-75 d-block mb-1">Last Match <span class="d-none d-lg-block" id="summary-match-date"></span></small>
+                                    <small id="summary-last-match" class="text-white text-opacity-75 fw-bold d-block mt-1">No matches</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/core/playerHelpers.js"></script>
+    <script src="js/core/challengeHelpers.js"></script>
+    <script src="js/features/profile/getProfileInfo.js"></script>
+</body>
+</html>

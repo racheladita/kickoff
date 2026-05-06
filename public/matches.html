@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squad Battles - KickOff</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <!-- Match Loading Animation Overlay -->
+    <div id="match-loading-overlay" class="match-loading-overlay">
+        <div class="mini-pitch">
+            <div class="pitch-goal-left"></div>
+            <div class="pitch-goal-right"></div>
+            <i class="fas fa-futbol pitch-ball"></i>
+        </div>
+        <div class="loading-text">Finding your opponent...</div>
+        <div class="loading-countdown" id="loading-countdown">5</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loading-progress-bar"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow-1 p-0">
+        <section class="hero hero-matches mb-5 vh-100 d-flex flex-column justify-content-center align-items-center relative p-xl-5">
+            <div class="z-1 w-100 pe-md-5 row justify-content-end">
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="hero-subtitle text-warning"><i class="fas fa-trophy"></i> The Arena</p>
+                    <h1 class="display-1 fw-bold text-white mb-3" style="text-shadow: 0 4px 20px rgba(0,0,0,0.9);">Squad Battles</h1>
+                    <p class="text-white opacity-100 fs-4 mb-5 ms-auto" style="max-width: 600px; text-shadow: 0 2px 10px rgba(0,0,0,0.9);">Challenge opponents, climb the leaderboard, and prove your team's dominance on the field.</p>
+                    <div class="d-flex flex-column flex-xl-row gap-3 justify-content-end">
+                        <button id="start-match-hero-btn" class="btn btn-pink btn-lg px-5 py-3 shadow-lg">
+                            <i class="fas fa-futbol me-2"></i> Find Match Now
+                        </button>
+                        <a href="#leaderboard" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="fas fa-list-ol me-2"></i> Leaderboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-overlay-gradient"></div>
+        </section>
+
+        <section id="leaderboard" class="container pb-5">
+            <div class="row">
+                <!-- Left Side: Battles and History -->
+                <div class="col-lg-8">
+                    <!-- Match Result Section (Initially Hidden) -->
+                    <div id="match-result" class="d-none mb-4">
+                        <div class="card glass text-center p-4">
+                            <h2 id="result-text" class="mb-3 h3 fw-bold text-white">Match Result</h2>
+                            <div id="match-summary" class="summary-box text-white mt-2 p-3 rounded-4"></div>
+                        </div>
+                    </div>
+
+                    <section class="mt-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4 text-center text-md-start">
+                            <h3 class="fw-bold text-white mb-0"><i class="fas fa-history text-pink me-2"></i> Match History</h3>
+                            <ul class="nav nav-pills glass p-1 rounded-pill" id="matchTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active rounded-pill text-white px-3 py-1" id="global-tab" data-bs-toggle="tab" data-bs-target="#global-history" type="button" role="tab">Global Arena</button>
+                                </li>
+                                <li class="nav-item" role="presentation" id="my-battles-tab-wrapper">
+                                    <button class="nav-link rounded-pill text-white px-3 py-1" id="team-tab" data-bs-toggle="tab" data-bs-target="#team-history" type="button" role="tab">My Battles</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="matchTabsContent">
+                            <div class="tab-pane fade show active" id="global-history" role="tabpanel" aria-labelledby="global-tab">
+                                <div id="global-history-list" class="match-history-list">
+                                    <div class="loader-ball">
+                                        <i class="fas fa-futbol"></i>
+                                    </div>
+                                    <p class="text-white opacity-50 text-center">Loading global arena...</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="team-history" role="tabpanel" aria-labelledby="team-tab">
+                                <div id="team-history-list">
+                                    <div class="loader-ball">
+                                        <i class="fas fa-futbol"></i>
+                                    </div>
+                                    <p class="text-white opacity-50 text-center">Loading your battles...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Side: Leaderboard -->
+                <div class="col-lg-4">
+                    <div class="card glass p-4 mb-4">
+                        <h3 class="mb-4 h4 fw-bold text-white"><i class="fas fa-crown text-warning me-2"></i> Top Teams</h3>
+                        <div id="leaderboard-list">
+                            <!-- Leaders -->
+                            <div class="text-center py-3">
+                                <div class="spinner-border text-warning spinner-border-sm" role="status"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Stats Section -->
+                    <div class="card glass p-4" id="team-stats-section">
+                        <h3 class="mb-4 h4 fw-bold text-white"><i class="fas fa-chart-bar text-primary me-2"></i> Your Stats</h3>
+                        <div id="team-stats-content">
+                            <p class="text-muted">Loading stats...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-5">
+                <h3 class="mb-4 fw-bold text-white"><i class="fas fa-search text-primary me-2"></i> Discover Other Teams</h3>
+                <div id="discovery-grid" class="grid-roster">
+                    <!-- Other teams -->
+                    <p class="text-muted">Exploring the league...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/core/playerHelpers.js"></script>
+    <script src="js/features/matches/showMatches.js"></script>
+</body>
+</html>

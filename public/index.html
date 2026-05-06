@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KickOff - Achieve Greatness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow-1 p-0">
+        <!-- Hero Section -->
+        <section class="hero hero-stadium row gx-0 p-5 vh-100 d-flex flex-column justify-content-center align-items-center relative text-center text-white">
+            <div class="p-0 justify-content-center z-1 w-100 pt-5 mt-5">
+                <p class="hero-subtitle">Where Wellness Meets Competition</p>
+                <h1>KickOff</h1>
+                <div class="d-flex gap-3 flex-wrap justify-content-center">
+                    <a href="challenges.html" class="btn btn-pink btn-lg px-5 py-3">Start Your Journey</a>
+                    <a href="#features" class="btn btn-outline-light btn-lg px-5 px-md-4 py-3">Explore Features</a>
+                </div>
+            </div>
+            
+            <div class="p-0 p-md-5 d-none d-md-flex justify-content-between absolute align-items-end z-1 opacity-75">
+                <div class="col-6 d-flex gap-4 gap-md-5 flex-wrap">
+                    <div class="d-flex flex-column align-items-start gap-2">
+                        <i class="fas fa-bullseye fs-4"></i>
+                        <span class="small fw-bold">Daily Challenges</span>
+                    </div>
+                    <div class="d-flex flex-column align-items-start gap-2">
+                        <i class="fas fa-store fs-4"></i>
+                        <span class="small fw-bold">Transfer Market</span>
+                    </div>
+                    <div class="d-flex flex-column align-items-start gap-2">
+                        <i class="fas fa-futbol fs-4"></i>
+                        <span class="small fw-bold">Squad Battles</span>
+                    </div>
+                </div>
+                <div class="col-6 text-end">
+                    <p class="fs-5 fw-bold mb-0">Build healthy habits, earn rewards, and compete with your dream team in the ultimate wellness-driven football experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-5">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <span class="badge bg-primary text-uppercase mb-3 px-3 py-2">Platform Features</span>
+                    <h2 class="fw-bold display-5 text-pink">Everything You Need to Succeed</h2>
+                    <p class="text-navy opacity-75 fs-5 mt-3 w-50 mx-auto">KickOff combines real-world wellness with the thrill of fantasy football management.</p>
+                </div> 
+
+                <div class="row g-4">
+                    <!-- Feature 1: Wellness Challenges -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-info bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-bullseye fa-2x text-info"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Wellness Challenges</h3>
+                            <p class="opacity-75 small mb-3">Complete daily wellness tasks like hydration goals, workouts, and mindfulness exercises. Every challenge completed earns you points.</p>
+                            <a href="challenges.html" class="btn btn-outline-primary btn-sm mt-auto">View Challenges</a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Team Building -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-secondary bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-users fa-2x text-white"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Team Building</h3>
+                            <p class="opacity-75 small mb-3">Create your own club, manage your roster, and develop a balanced squad of Forwards, Midfielders, Defenders, and Goalkeepers.</p>
+                            <a href="team.html" onclick="checkLogin(event)" class="btn btn-outline-primary btn-sm mt-auto">Your Profile</a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Transfer Market -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-success bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-store fa-2x text-success"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Transfer Market</h3>
+                            <p class="opacity-75 small mb-3">Spend your hard-earned points on a diverse catalogue of football players. Build your dream squad with strategic purchases.</p>
+                            <a href="market.html" class="btn btn-outline-primary btn-sm mt-auto">Browse Market</a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4: Squad Battles -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-danger bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-futbol fa-2x text-danger"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Squad Battles</h3>
+                            <p class="opacity-75 small mb-3">Put your team to the test! Challenge other users in thrilling simulated matches. Your team's ratings determine your success.</p>
+                            <a href="matches.html" class="btn btn-outline-primary btn-sm mt-auto">Enter Arena</a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5: Badges & Achievements -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-warning bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-medal fa-2x text-warning"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Badges & Achievements</h3>
+                            <p class="opacity-75 small mb-3">Unlock exclusive badges for your milestones. Build a streak, complete challenges, and show off your accomplishments.</p>
+                            <a href="profile.html#badges" onclick="checkLogin(event)" class="btn btn-outline-primary btn-sm mt-auto">See Badges</a>
+                        </div>
+                    </div>
+
+                    <!-- Feature 6: Leaderboards -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glass text-center p-4 h-100 text-navy">
+                            <div class="mb-3">
+                                <span class="icon-circle bg-primary bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-crown fa-2x text-white"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5 fw-bold">Leaderboards</h3>
+                            <p class="opacity-75 small mb-3">Compete for glory! Track your wins, losses, and points against the global community. Climb the ranks and become a legend.</p>
+                            <a href="matches.html#leaderboard" class="btn btn-outline-primary btn-sm mt-auto">View Rankings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="py-5 bg-navy">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <span class="badge bg-pink text-uppercase mb-3 px-3 py-2">The Journey</span>
+                    <h2 class="fw-bold display-5 text-white">How KickOff Works</h2>
+                </div>
+
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="d-flex flex-column gap-4">
+                            <!-- Step 1 -->
+                            <div class="d-flex gap-4 align-items-start">
+                                <div class="flex-shrink-0">
+                                    <span class="badge rounded-circle bg-pink fs-5 d-flex align-items-center justify-content-center">1</span>
+                                </div>
+                                <div>
+                                    <h2 class="h4 text-white fw-bold mb-2">Complete Daily Challenges</h2>
+                                    <p class="text-white opacity-75 mb-0">Start your day with wellness tasks. Drink water, meditate, or hit the gym. Each completed challenge rewards you with points.</p>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="d-flex gap-4 align-items-start">
+                                <div class="flex-shrink-0">
+                                    <span class="badge rounded-circle bg-pink fs-5 d-flex align-items-center justify-content-center">2</span>
+                                </div>
+                                <div>
+                                    <h2 class="h4 text-white fw-bold mb-2">Build Your Dream Team</h2>
+                                    <p class="text-white opacity-75 mb-0">Head to the Transfer Market and spend your points on elite players. Assemble a balanced squad with diverse positions.</p>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="d-flex gap-4 align-items-start">
+                                <div class="flex-shrink-0">
+                                    <span class="badge rounded-circle bg-pink fs-5 d-flex align-items-center justify-content-center">3</span>
+                                </div>
+                                <div>
+                                    <h2 class="h4 text-white fw-bold mb-2">Compete & Dominate</h2>
+                                    <p class="text-white opacity-75 mb-0">Enter the Squad Battles arena. Challenge opponents, climb the leaderboard, and earn your place among the elite.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center d-none d-lg-block">
+                        <i class="fas fa-trophy text-warning fa-10x"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="py-5">
+            <div class="container py-4">
+                <div class="card glass bg-primary text-center p-5 border-0">
+                    <h2 class="fw-bold display-6 text-white mb-3">Ready to Start Your Wellness Journey?</h2>
+                    <p class="text-white opacity-75 fs-5 mb-4 w-50 mx-auto">Join KickOff today and transform your daily habits into a thrilling competition. Your dream team awaits.</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="register.html" class="btn btn-white btn-lg px-5 py-3">Create Free Account</a>
+                        <a href="login.html" class="btn btn-outline-light btn-lg px-4 py-3">I Have an Account</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+</body>
+</html>
+

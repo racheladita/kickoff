@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Team - KickOff</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 mt-5 py-5">
+        <div class="text-center mb-5 mt-4">
+            <div class="d-inline-flex flex-column align-items-center">
+                <span class="badge badge-soft text-white mb-3 px-3 py-2 rounded-pill shadow-sm fs-6">
+                    <i class="fas fa-shield-alt me-2"></i> Team Management
+                </span>
+                <h1 id="display-team-name" class="main-title mb-2 display-4 fw-bold">My Football Team</h1>
+                <p class="text-white opacity-75 small fs-6">Manage squad and view stats</p>
+            </div>
+        </div>
+
+        <div id="loading-state" class="col-12 d-flex flex-column justify-content-center align-items-center w-100">
+            <div class="loader-ball">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <p class="text-white text-opacity-75 fs-5">Loading team information...</p>
+        </div>
+
+        <!-- No Team Found State -->
+        <div id="empty-state" class="card glass text-center p-5 mx-auto d-none text-white">
+            <i class="fas fa-users-slash mb-4 text-primary fa-4x mb-3"></i>
+            <h2 class="h3 fw-bold">No Team Found</h2>
+            <p class="text-white text-opacity-75 mb-4">You haven't established a football team yet. Go to your <a href="profile.html#team-section" class="link-light fw-bold text-decoration-none">Profile</a> to establish one!</p>
+        </div>
+
+        <!-- Team Info Display -->
+        <div id="team-info" class="mb-5 d-none mx-auto">
+            <div class="card glass p-4">
+                <!-- Team Summary Inside Card -->
+                <div id="team-summary" class="row g-3">
+                    <div class="col-4">
+                        <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                            <i class="fas fa-users text-primary fa-2x mb-3"></i>
+                            <h2 class="text-white text-opacity-75 small mb-1">Squad Size</h2>
+                            <h2 id="summary-player-count" class="fw-bold mb-0 text-white">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                            <i class="fas fa-bolt text-primary fa-2x mb-3"></i>
+                            <h2 class="text-white text-opacity-75 small mb-1">Avg Rating</h2>
+                            <h2 id="summary-avg-rating" class="fw-bold mb-0 text-white">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="glass text-center p-2 p-md-3 h-100 info-summary-card">
+                            <i class="fas fa-history text-primary fa-2x mb-3"></i>
+                            <h2 class="text-white text-opacity-75 small mb-1">Last Match <span class="d-none d-lg-block" id="summary-match-date"></span></h2>
+                            <h2 id="summary-last-match" class="text-white fw-bold mb-0 fs-5 mt-1">No matches yet</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roster Section -->
+        <div id="roster-section" class="text-center d-none mt-5">
+            <h3 class="mb-4 fw-bold text-white"><i class="fas fa-users me-2"></i> Full Team Squad</h3>
+            <div id="roster-empty-state" class="text-center py-4 d-none">
+                <p class="text-white opacity-75">No players in your team yet. Go to the <a href="market.html" class="link-light fw-bold">Transfer Market</a>!</p>
+            </div>
+            <div id="roster-grid" class="grid-roster">
+                <!-- Players will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-dark " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/core/playerHelpers.js"></script>
+    <script src="js/features/team/showTeamInfo.js"></script>
+</body>
+</html>

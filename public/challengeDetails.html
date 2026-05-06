@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Details - KickOff</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="background-page d-flex flex-column min-vh-100">
+    <header>
+        <div class="container">
+            <nav id="navbar" class="navbar navbar-expand-lg border-0 py-3">
+                <div class="container-fluid p-0">
+                    <a href="index.html" class="navbar-brand logo">
+                        <h2 class="mb-0 text-white"><i class="fas fa-trophy"></i> KickOff</h2>
+                    </a>
+                    
+                    <button class="navbar-toggler btn-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                        <ul class="navbar-nav align-items-lg-center gap-3 mb-0" id="nav-links">
+                            <li class="nav-item" id="auth-link">
+                                <a href="login.html" class="btn btn-white  px-4">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 mt-5 py-5">
+        <div class="d-flex justify-content-start mt-4 mb-4">
+            <a href="challenges.html" class="btn-white">
+                <i class="fas fa-arrow-left"></i> Back to Challenges
+            </a>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="col-12 d-flex flex-column justify-content-center align-items-center w-100">
+            <div class="loader-ball">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <p class="text-white text-opacity-75 fs-5">Loading challenge details...</p>
+        </div>
+
+        <!-- Challenge Details Card -->
+        <div id="challenge-details" class="d-none">
+            <div class="card-section p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
+                    <div>
+                        <h1 id="challenge-title" class="mb-2 fw-bold text-pink display-6">Challenge Title</h1>
+                        <p class="text-white text-opacity-75 mb-0 fs-6"><i class="fas fa-user me-2"></i> Created by <span id="creator-name" class="fw-bold text-white">Loading...</span></p>
+                    </div>
+                    <div id="action-buttons">
+                        <!-- Complete, Edit, Delete buttons will be inserted here -->
+                    </div>
+                </div>
+
+                <p id="challenge-description" class="mb-4 fs-5 text-white opacity-60">Description goes here...</p>
+
+                <div class="d-flex align-items-center gap-4">
+                    <div class="stats-highlight fs-3 text-white fw-bold">
+                        <i class="fas fa-coins text-warning me-2"></i>
+                        <span id="challenge-points">0</span> Points
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completions Section -->
+            <div class="card-section p-4">
+                <h2 class="mb-4 fw-bold h4"><i class="fas fa-check-circle text-primary me-2"></i> Completions</h2>
+                <div id="completions-list" class="table-glass rounded-4 overflow-hidden">
+                    <p class="text-white text-opacity-75">Loading completions...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-navy p-3 border-top border-1 border-dark">
+        <div class="container text-center">
+            <p class="text-white fw-semibold mb-0">&copy; 2026 KickOff. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Global Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass modal-glass-border">
+          <div class="modal-header border-0">
+            <h2 class="h5 text-white" id="messageModalLabel">Message</h2>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center text-white p-4">
+            <p id="modal-message-text" class="mb-0">Message</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center">
+            <button type="button" class="btn btn-white " data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/core/getCurrentURL.js"></script>
+    <script src="js/core/queryCmds.js"></script>
+    <script src="js/core/uiHelpers.js"></script>
+    <script src="js/core/userNavbarToggle.js"></script>
+    <script src="js/core/challengeHelpers.js"></script>
+    <script src="js/features/challenges/challengeDetails.js"></script>
+</body>
+</html>
