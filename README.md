@@ -79,7 +79,8 @@ The application follows a layered **Model-View-Controller (MVC)** architecture w
 
 The system architecture is supported by a relational database schema designed for high data integrity and performance:
 
-![Entity Relationship Diagram](kickoff_ERD.png)
+![Entity Relationship Diagram](kickoff_ERD_phase_2.png)
+
 _Entity Relationship Diagram (ERD) for Kickoff Platform_
 
 ## 🚀 Core Features
