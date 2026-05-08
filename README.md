@@ -10,20 +10,35 @@ A full-stack wellness gamification platform that incentivizes healthy habits thr
 
 ## 📱 Project Preview
 
-![Main Dashboard](dashboard.png)
 _1. Profile Dashboard — A centralized overview of wellness metrics, point balances, daily streaks, and football team status._
 
-![Wellness Challenges](challenges.png)
+<img width="800" height="535" alt="image" src="https://github.com/user-attachments/assets/8bf7a4e7-c532-4d82-a036-a06c2f163417" />
+
+<br/>
+
 _2. Wellness Challenges — Interactive interface for managing daily health tasks and earning points through completion validation._
 
-![Transfer Market](market.png)
+<img width="800" height="510" alt="image" src="https://github.com/user-attachments/assets/c7fdf092-b27f-4419-96e1-c9f2939af3be" />
+
+<br/>
+
 _3. Transfer Market — An integrated economy allowing users to exchange wellness points for high-value player acquisitions._
 
-![Team Roster](roster.png)
+<img width="800" height="521" alt="image" src="https://github.com/user-attachments/assets/fcd556d3-0e37-4071-8330-cffc5969739f" />
+
+<br/>
+
 _4. Team Management — Full control over team composition, including player tracking and squad optimization._
 
-![Achievements](achievements.png)
+<img width="800" height="520" alt="image" src="https://github.com/user-attachments/assets/b5d6d4f5-e11b-4be5-9944-217261c44229" />
+
+<br/>
+
 _5. Achievement System — Visual representation of earned milestones, rewarded automatically for consistency and specific accomplishments._
+
+<img width="800" height="524" alt="image" src="https://github.com/user-attachments/assets/fc0e7d68-55e5-4632-bef7-88a73c510ce8" />
+
+<br/>
 
 ## 🏗️ System Architecture
 
