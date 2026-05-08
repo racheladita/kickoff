@@ -24,7 +24,7 @@ module.exports.readCompletionsByUser = (req, res, next) => {
 }
 
 // ##############################################################
-// READ CHALLENGE COMPLETIONS (Section D Req 10)
+// READ CHALLENGE COMPLETIONS
 // ##############################################################
 module.exports.readChallengeCompletions = (req, res, next) => {
     const data = {
@@ -49,7 +49,7 @@ module.exports.readChallengeCompletions = (req, res, next) => {
 }
 
 // ##############################################################
-// MIDDLEWARE: EXECUTE COMPLETION (Streak Logic + Transaction) (Section D Req 9)
+// MIDDLEWARE: EXECUTE COMPLETION (Streak Logic + Transaction)
 // ##############################################################
 module.exports.executeCompletion = (req, res, next) => {
     const context = res.locals.completionContext;

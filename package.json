@@ -1,7 +1,7 @@
 {
   "name": "kickoff",
   "version": "1.0.0",
-  "description": "You are required to build your folder structures for your project.",
+  "description": "A full-stack football-themed wellness gamification platform with JWT authentication and MySQL persistence.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

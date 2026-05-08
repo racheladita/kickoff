@@ -4,7 +4,7 @@
 const model = require('../models/wellnessChallengeModel');
 
 // ##############################################################
-// GET ALL CHALLENGES (Section D Req 6)
+// GET ALL CHALLENGES
 // ##############################################################
 module.exports.readAllChallenges = (req, res, next) => {
     const callback = (error, results, fields) => {
@@ -61,7 +61,7 @@ module.exports.readChallengesByCreator = (req, res, next) => {
 }
 
 // ##############################################################
-// CREATE NEW CHALLENGE (Section D Req 5)
+// CREATE NEW CHALLENGE
 // ##############################################################
 module.exports.createChallenge = (req, res, next) => {
     if (req.body.description == undefined || req.body.points == undefined) {
@@ -122,7 +122,7 @@ module.exports.prepareCompletion = (req, res, next) => {
 };
 
 // ##############################################################
-// FINAL RESPONSE (Section D Req 9)
+// FINAL RESPONSE
 // ##############################################################
 module.exports.sendCompletionResponse = (req, res, next) => {
     const player = res.locals.player;
@@ -177,7 +177,7 @@ module.exports.checkChallenge = (req, res, next) => {
 };
 
 // ##############################################################
-// MIDDLEWARE: CHECK CHALLENGE OWNERSHIP (Section D Req 8)
+// MIDDLEWARE: CHECK CHALLENGE OWNERSHIP
 // ##############################################################
 module.exports.checkChallengeOwnership = (req, res, next) => {
     const data = { 
@@ -215,7 +215,7 @@ module.exports.checkChallengeOwnership = (req, res, next) => {
 };
 
 // ##############################################################
-// UPDATE CHALLENGE BY ID (Section D Req 8)
+// UPDATE CHALLENGE BY ID
 // ##############################################################
 module.exports.updateChallengeById = (req, res, next) => {
     if (req.body.description == undefined || req.body.points == undefined) {
@@ -274,7 +274,7 @@ module.exports.checkCompletions = (req, res, next) => {
 };
 
 // ##############################################################
-// DELETE CHALLENGE BY ID (Section D Req 7)
+// DELETE CHALLENGE BY ID
 // ##############################################################
 module.exports.deleteChallengeById = (req, res, next) => {
     const data = {

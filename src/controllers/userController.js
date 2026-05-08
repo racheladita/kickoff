@@ -4,7 +4,7 @@
 const model = require('../models/userModel');
 
 // ##############################################################
-// GET ALL USERS (Section D Req 2)
+// GET ALL USERS
 // ##############################################################
 module.exports.readAllUser = (req, res, next) => {
     const callback = (error, results, fields) => {
@@ -19,7 +19,7 @@ module.exports.readAllUser = (req, res, next) => {
 }
 
 // ##############################################################
-// GET USER BY ID (Section D Req 3)
+// GET USER BY ID
 // ##############################################################
 module.exports.readUserById = (req, res, next) => {
     const data = {
@@ -65,7 +65,7 @@ module.exports.checkDuplicateUser = (req, res, next) => {
 };
 
 // ##############################################################
-// CREATE NEW USER (Register) (Section D Req 1)
+// CREATE NEW USER (Registration)
 // ##############################################################
 module.exports.createNewUser = (req, res, next) => {
     if (req.body.username == undefined || req.body.email == undefined || req.body.password == undefined) {
@@ -134,7 +134,7 @@ module.exports.login = (req, res, next) => {
 }
 
 // ##############################################################
-// MIDDLEWARE: CHECK USER UPDATE (Section D Req 4)
+// MIDDLEWARE: CHECK USER UPDATE
 // ##############################################################
 module.exports.checkDuplicateOnUpdate = (req, res, next) => {
     const data = {
@@ -178,7 +178,7 @@ module.exports.checkDuplicateOnUpdate = (req, res, next) => {
 };
 
 // ##############################################################
-// UPDATE USER BY ID (Section D Req 4)
+// UPDATE USER BY ID
 // ##############################################################
 module.exports.updateUserById = (req, res, next) => {
     // let profile_pic = req.body.profile_pic || res.locals.user.profile_pic;
@@ -240,7 +240,7 @@ module.exports.deleteUserById = (req, res, next) => {
 }
 
 // ##############################################################
-// MIDDLEWARE: CHECK SUPER ADMIN (For Delete)
+// MIDDLEWARE: VALIDATION (Superadmin Only)
 // ##############################################################
 module.exports.checkSuperAdmin = (req, res, next) => {
     // Strict Check: Must be ID 1
@@ -252,7 +252,7 @@ module.exports.checkSuperAdmin = (req, res, next) => {
 };
 
 // ##############################################################
-// MIDDLEWARE: CHECK USER OWNER (For Update)
+// MIDDLEWARE: OWNERSHIP VALIDATION
 // ##############################################################
 module.exports.checkUserOwner = (req, res, next) => {
     // Allow superadmin (userId 1) to update any user
@@ -269,7 +269,7 @@ module.exports.checkUserOwner = (req, res, next) => {
 };
 
 // ##############################################################
-// MIDDLEWARE: CHECK USER DEPENDENCIES (For Delete)
+// MIDDLEWARE: DEPENDENCY INTEGRITY CHECK
 // ##############################################################
 module.exports.checkUserDependencies = (req, res, next) => {
     const data = {
@@ -300,7 +300,7 @@ module.exports.checkUserDependencies = (req, res, next) => {
 };
 
 // ##############################################################
-// MIDDLEWARE: CHECK USER EXISTS (Section D Req 9)
+// MIDDLEWARE: EXISTENCE VALIDATION
 // ##############################################################
 module.exports.checkUserExists = (req, res, next) => {
     const userId = res.locals.userId;

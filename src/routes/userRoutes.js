@@ -13,11 +13,11 @@ const upload = require('../middlewares/upload');
 // ##############################################################
 
 // User CRUD
-router.get("/", controller.readAllUser); // Section D Requirement No. 2
-router.get("/:id", controller.readUserById); // Section D Requirement No. 3
-router.post("/", controller.checkDuplicateUser, bcryptMiddleware.hashPassword, controller.createNewUser); // Section D Requirement No. 1
+router.get("/", controller.readAllUser);
+router.get("/:id", controller.readUserById);
+router.post("/", controller.checkDuplicateUser, bcryptMiddleware.hashPassword, controller.createNewUser);
 router.post("/login", controller.login, bcryptMiddleware.comparePassword, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
-router.put("/:id", jwtMiddleware.verifyToken, controller.checkUserOwner, upload.single('profile_pic'), controller.checkDuplicateOnUpdate, bcryptMiddleware.hashPassword, controller.updateUserById); // Section D Requirement No. 4
+router.put("/:id", jwtMiddleware.verifyToken, controller.checkUserOwner, upload.single('profile_pic'), controller.checkDuplicateOnUpdate, bcryptMiddleware.hashPassword, controller.updateUserById);
 router.delete("/:id", jwtMiddleware.verifyToken, controller.checkSuperAdmin, controller.checkUserDependencies, controller.deleteUserById);
 
 module.exports = router;

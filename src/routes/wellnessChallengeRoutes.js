@@ -15,14 +15,14 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 // Challenge CRUD
 
-router.get("/", controller.readAllChallenges); // Section D Requirement No. 6
-router.post("/", jwtMiddleware.verifyToken, controller.createChallenge); // Section D Requirement No. 5
+router.get("/", controller.readAllChallenges);
+router.post("/", jwtMiddleware.verifyToken, controller.createChallenge);
 router.get("/creator/:user_id", controller.readChallengesByCreator);
 router.get("/:id/details", controller.readChallengeById);
-router.get("/:id", controller.checkChallenge, completionController.readChallengeCompletions); // Section D Requirement No. 10
+router.get("/:id", controller.checkChallenge, completionController.readChallengeCompletions);
 
 // Complete a wellness challenge
-router.post("/:id", // Section D Requirement No. 9
+router.post("/:id",
     jwtMiddleware.verifyToken,
     controller.checkChallenge,
     controller.prepareCompletion, 
@@ -33,7 +33,7 @@ router.post("/:id", // Section D Requirement No. 9
     achievementController.checkConsistencyKing,
     controller.sendCompletionResponse
 );
-router.put("/:id", jwtMiddleware.verifyToken, controller.checkChallengeOwnership, controller.updateChallengeById); // Section D Requirement No. 8
-router.delete("/:id", jwtMiddleware.verifyToken, controller.checkChallengeOwnership, controller.deleteChallengeById); // Section D Requirement No. 7
+router.put("/:id", jwtMiddleware.verifyToken, controller.checkChallengeOwnership, controller.updateChallengeById);
+router.delete("/:id", jwtMiddleware.verifyToken, controller.checkChallengeOwnership, controller.deleteChallengeById);
 
 module.exports = router;
